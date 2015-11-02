@@ -1,0 +1,85 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  color: #fff;
+  text-shadow: 1px 0px 17px rgba(0, 0, 0, 1);
+  font-size: 100px;
+  text-align: center;
+
+  width: 800px;
+  height: 320px;
+
+  margin: auto;
+  cursor: pointer;
+}
+
+p {
+  position: absolute;
+  bottom: 0px;
+  right: 10px;
+}
+
+@keyframes flash {
+  0% { background: #000; }
+  50% { background: #fff; }
+  100% { background: #000; }
+}
+
+@-webkit-keyframes flash {
+  0% { background: #000; }
+  50% { background: #fff; }
+  100% { background: #000; }
+}
+
+@keyframes uber {
+  0% { background: #000; }
+  20% { background: #f00; }
+  40% { background: #0f0; }
+  60% { background: #00f; }
+  80% { background: #fff; }
+  100% { background: #000; }
+}
+
+@-webkit-keyframes uber {
+  0% { background: #000; }
+  20% { background: #f00; }
+  40% { background: #0f0; }
+  60% { background: #00f; }
+  80% { background: #fff; }
+  100% { background: #000; }
+}
+
+.animate {
+  animation-name: flash;
+  animation-duration: .3s;
+  animation-timing-function: ease;
+  animation-iteration-count: 3;
+  animation-direction: normal;
+  animation-play-state: running;
+
+  -webkit-animation-name: flash;
+  -webkit-animation-duration: .3s;
+  -webkit-animation-timing-function: ease;
+  -webkit-animation-iteration-count: 3;
+  -webkit-animation-direction: normal;
+  -webkit-animation-play-state: running;
+}
+
+.ubermate {
+  animation-name: uber;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+  animation-iteration-count: 3;
+  animation-direction: normal;
+  animation-play-state: running;
+
+  -webkit-animation-name: uber;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-timing-function: ease;
+  -webkit-animation-iteration-count: 3;
+  -webkit-animation-direction: normal;
+  -webkit-animation-play-state: running;
+}
+

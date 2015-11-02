@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Momentary Zine - HACKERS & DESIGNERS</title>
+<link rel="stylesheet" type="text/css" href="mz.css" />
+</head>
+<body>
+<h1></h1></div>
+<p>SPEAK INTO THE MIC...</p>
+</body>
+<script type="text/javascript">
+
+var background = '#fff';
+var index = 0;
+
+var postIt = function(str) {
+  var http = new XMLHttpRequest();
+  var url = "https://localhost/";
+  var params = "str=" + str;
+  http.open("POST", url, true);
+  http.onreadystatechange = function() {
+    if (http.readyState == 4 && http.status == 200) {
+      document.getElementsByTagName('body')[0].style.background = '#fff'; 
+      document.querySelector('body').classList.remove('ubermate'); 
+      document.querySelector('body').classList.remove('animate'); 
+      background =  'url(' + http.responseText + ')';
+      document.getElementsByTagName('body')[0].style.background = background; 
+    }
+  }
+
+  //Send the proper header information along with the request
+  //http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  //http.setRequestHeader("Content-length", params.length);
+  //http.setRequestHeader("Connection", "close");
+
+  /*
+  http.onreadystatechange = function() {
+    if(http.readyState == 4 && http.status == 200) {
+        alert(http.responseText);
+    }
+  }
+  */
+  http.send(params);
+};
+
+var doIt = function() {
+  if(index % 3 == 0) {
+    document.querySelector('body').classList.add('ubermate'); 
+  } else {
+    document.querySelector('body').classList.add('animate'); 
+  } 
+  index++;
+};
+
+var start = function() {
+  if (!('webkitSpeechRecognition' in window)) {
+    console.log('webkit speech not supported');
+  } else {
+    var recognition = new webkitSpeechRecognition();
+
+    recognition.continuous = true;
+    recognition.interimResults = true;
+
+    recognition.onstart = function() {
+      console.log('Recognition did start...');
+    };
+
+    recognition.onresult = function(event) {
+      for (var i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          var str = event.results[i][0].transcript;
+          console.log('Final: ' + str);
+          document.querySelector('h1').innerHTML = event.results[i][0].transcript.toUpperCase();
+          doIt();
+          postIt(str);
+        } else {
+          console.log('Interim: ' + event.results[i][0].transcript);
+          document.querySelector('h1').innerHTML = event.results[i][0].transcript.toUpperCase(); 
+        }
+      }
+    };
+
+    recognition.onerror = function(event) {
+      console.log('Recognition did error: ' + JSON.stringify(event));
+      //recognition.start();
+    };
+
+    recognition.onend = function() {
+      console.log('Recognition did end.');
+      recognition.start();
+    };
+
+    recognition.lang = 'en-US';
+    recognition.start();
+
+  }
+};
+
+start();
+
+</script>
+</html>
