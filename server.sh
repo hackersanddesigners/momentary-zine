@@ -41,10 +41,14 @@ def create_content(str, img):
     #t = threading.Thread(target=print_page, args=(print_content,))
     #t.start() 
     char_count = 0
-    print_str = ''
+    print_content = ''
+  elif 'print' in print_content:
+    print 'FORCE PRINT!!'
+    print_page(print_content)
+    
 
 def get_image(str):
-  url = 'https://www.googleapis.com/customsearch/v1?q=' + str + '&num=10&cx=015700006039354317064:q1iz_ozoiqg&key=AIzaSyBgfVQouscDUruWKEGIg36ZzroWiukq36U&alt=json'
+  url = 'https://www.googleapis.com/customsearch/v1?q=' + str + '&num=10&cx=015700006039354317064:q1iz_ozoiqg&key=AIzaSyA4uO6dS4qA3D6NxfzaIXPQsWir8L_nT1A&alt=json'
   resp = urllib.urlopen(url)
   data = json.loads(resp.read())
   n = random.randint(0, len(data['items']) - 1)
