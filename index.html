@@ -66,57 +66,68 @@ var report = function(event) {
 var start = function() {
   if (!('webkitSpeechRecognition' in window)) {
     console.log('webkit speech not supported');
-  } else {
-    var recognition = new webkitSpeechRecognition();
-
-    recognition.continuous = true;
-    recognition.interimResults = true;
-    recognition.lang = 'en-US';
-
-    recognition.onresult = function(event) {
-      // console.log(event.resultIndex + ', ' + event.results.length);
-
-      var result = event.results[event.resultIndex];
-      var transcript = result[0].transcript.toUpperCase();
-      transcript = transcript
-        .replace('F******', 'FUCKING')
-        .replace('F*****', 'FUCKER')
-        .replace('F***', 'FUCK')
-        .replace('S*****', 'SHITEY')
-        .replace('S***', 'SHIT')
-        .replace('A******', 'ASSHOLE')
-        .replace('B****', 'BITCH')
-        .replace('S****', 'SLUTY')
-        .replace('A**', 'ASS')
-      
-      document.querySelector('h1').innerHTML = transcript;
-
-      if (result.isFinal) {
-        console.log('Final: ' + transcript);
-        doIt();
-        postIt(transcript);
-      } else {
-        console.log('Interim: ' + transcript);
-      }
-    };
-
-    recognition.addEventListener('error', report);
-    recognition.addEventListener('audiostart', report);
-    recognition.addEventListener('audioend', report);
-    recognition.addEventListener('nomatch', report);
-    recognition.addEventListener('soundstart', report);
-    recognition.addEventListener('soundend', report);
-    recognition.addEventListener('speechstart', report);
-    recognition.addEventListener('speechend', report);
-    recognition.addEventListener('start', report);
-
-    recognition.onend = function() {
-      console.log('restarting recognition...');
-      recognition.start();
-    };
-
-    recognition.start();
+    return;
   }
+
+  var recognition = new webkitSpeechRecognition();
+  var lastUpdate = new Date();
+
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.lang = 'en-US';
+
+  recognition.onresult = function(event) {
+    lastUpdate = new Date();
+
+    var result = event.results[event.resultIndex];
+    var transcript = result[0].transcript.toUpperCase();
+    transcript = transcript
+      .replace('F******', 'FUCKING')
+      .replace('F*****', 'FUCKER')
+      .replace('F***', 'FUCK')
+      .replace('S*****', 'SHITEY')
+      .replace('S***', 'SHIT')
+      .replace('A******', 'ASSHOLE')
+      .replace('B****', 'BITCH')
+      .replace('S****', 'SLUTY')
+      .replace('A**', 'ASS')
+    
+    document.querySelector('h1').innerHTML = transcript;
+
+    if (result.isFinal) {
+      console.log('Final: ' + transcript);
+      doIt();
+      postIt(transcript);
+    } else {
+      console.log('Interim: ' + transcript);
+    }
+  };
+
+  recognition.addEventListener('error', report);
+  recognition.addEventListener('audiostart', report);
+  recognition.addEventListener('audioend', report);
+  recognition.addEventListener('nomatch', report);
+  recognition.addEventListener('soundstart', report);
+  recognition.addEventListener('soundend', report);
+  recognition.addEventListener('speechstart', report);
+  recognition.addEventListener('speechend', report);
+  recognition.addEventListener('start', report);
+
+  recognition.onend = function() {
+    console.log('restarting recognition...');
+    recognition.start();
+  };
+
+  recognition.start();
+
+  setInterval(function() {
+    var now = new Date();
+    if(now - lastUpdate > 10000) {
+      console.log('warning: resetting idle recognizer')
+      lastUpdate = now;
+      recognition.abort();
+    }
+  }, 1000);
 };
 
 start();
