@@ -18,46 +18,57 @@ print_content = ''
 char_count = 0
 
 def print_page(content):
-  html_file = open('zine.html', 'w')
-  html_file.write(content)
-  html_file.close()
-  #wkhtmltopdf --page-width 100mm --page-height 200mm test.html test.pdf
-  call(["wkhtmltopdf", "--page-width", "80mm", "--page-height", "200mm", "zine.html", "zine.pdf"])
-  call(["lp", "zine.pdf"])
-  return
+    html_file = open('zine.html', 'w')
+    html_file.write(content)
+    html_file.close()
+    #wkhtmltopdf --page-width 100mm --page-height 200mm test.html test.pdf
+    call(["wkhtmltopdf", "--page-width", "80mm", "--page-height", "200mm", "zine.html", "zine.pdf"])
+    call(["lp", "zine.pdf"])
+    return
 
 def create_content(str, img):
-  content = template.replace('THE_IMAGE', img)
-  content = content.replace('THE_TEXT', str)
+    content = template.replace('THE_IMAGE', img)
+    content = content.replace('THE_TEXT', str)
 
-  global char_count
-  char_count = char_count + len(str)
-  global print_content
-  print_content += content
+    global char_count, print_content
+    char_count = char_count + len(str)
+    print_content += content
 
-  print char_count
-  if char_count > 150:
-    print_page(print_content)
-    #t = threading.Thread(target=print_page, args=(print_content,))
-    #t.start() 
-    char_count = 0
-    print_content = ''
-  elif 'print' in print_content:
-    print 'FORCE PRINT!!'
-    print_page(print_content)
+    if char_count > 150 or 'PRINT' in print_content:
+        print 'printing (size = %i)' % char_count
+        print_page(print_content)
+        #t = threading.Thread(target=print_page, args=(print_content,))
+        #t.start() 
+        char_count = 0
+        print_content = ''
+    else:
+        print 'not printing (size = %i)' % char_count
     
 
-def get_image(str):
-  url = 'https://www.googleapis.com/customsearch/v1?q=' + str + '&num=10&cx=015700006039354317064:q1iz_ozoiqg&key=AIzaSyA4uO6dS4qA3D6NxfzaIXPQsWir8L_nT1A&alt=json'
-  resp = urllib.urlopen(url)
-  data = json.loads(resp.read())
-  n = random.randint(0, len(data['items']) - 1)
+def get_image(transcript):
+    import urllib
+    url = 'https://www.googleapis.com/customsearch/v1?q=' + urllib.quote(transcript) + '&num=10&cx=015700006039354317064:q1iz_ozoiqg&key=AIzaSyA4uO6dS4qA3D6NxfzaIXPQsWir8L_nT1A&alt=json'
+    resp = urllib.urlopen(url)
+    data = json.loads(resp.read())
+    urls = []
 
-  try:
-    return data['items'][n]['pagemap']['cse_image'][0]['src']
-  except Exception, e:
-    return ' '
-  
+    for item in data['items']:
+        try:
+            url = item['pagemap']['cse_image'][0]['src']
+            if url.startswith('http'):
+                urls.append(url)
+        except:
+            pass
+
+    if urls:
+        n = random.randint(0, len(urls) - 1)
+        print 'found image: %s' % urls[n]
+        return urls[n]
+    else:
+        print 'found no image'
+        return ' '
+
+
 class S(BaseHTTPRequestHandler):
     def _set_headers(self):
         self.send_response(200)
@@ -66,6 +77,8 @@ class S(BaseHTTPRequestHandler):
 
     def do_GET(self):
         self._set_headers()
+        if self.path == '/':
+          self.path = '/index.html'
         f = open('./' + self.path)
         try:
           self.wfile.write(f.read())
@@ -78,35 +91,39 @@ class S(BaseHTTPRequestHandler):
         self._set_headers()
 
     def do_POST(self):
-        print dir(self)
         # Extract and print the contents of the POST
         length = int(self.headers['Content-Length'])
         post_data = urlparse.parse_qs(self.rfile.read(length).decode('utf-8'))
-        for key, value in post_data.iteritems():
-            print '%s=%s' % (key, value)
-            if key == 'str':
-              str = value[0]
-              strs = str.split(' ')
-              n = random.randint(0, len(strs) - 1)
-              image_url = get_image(str)
+        transcript = None
+        for key, values in post_data.iteritems():
+            for value in values:
+                print 'post %s %r' % (key, value)
+                if key == 'str':
+                    transcript = value
 
-              print image_url
-              create_content(str, image_url) 
-
-              self._set_headers()
-              self.wfile.write(image_url)
-              return
         self._set_headers()
-        self.wfile.write('Failed image search.')
-    
-            
+        if transcript:
+            url = get_image(transcript)
+            create_content(transcript, url)
+            self.wfile.write(url)
+        else:
+            self.wfile.write('Failed image search.')
+
 def run_server(server_class=HTTPServer, handler_class=S, port=443):
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
     httpd.socket = ssl.wrap_socket (httpd.socket, certfile='./77867815_localhost.pem', server_side=True)
-    print 'Starting httpd...'
+    print 'Starting httpd... (https://localhost:%s/)' % port
     httpd.serve_forever()
-    
+
+def parse_args():
+    import argparse
+
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--port', type=int, default=443)
+    return parser.parse_args()
+
 if __name__ == '__main__':
-    run_server()
+    args = parse_args()
+    run_server(port=args.port)
 

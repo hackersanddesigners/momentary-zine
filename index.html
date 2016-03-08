@@ -15,10 +15,12 @@ var index = 0;
 
 var postIt = function(str) {
   var http = new XMLHttpRequest();
-  var url = "https://localhost/";
+  var url = '/';
   var params = "str=" + str;
+  console.log('post ' + url);
   http.open("POST", url, true);
   http.onreadystatechange = function() {
+    console.log('post reply: ' + http.status);
     if (http.readyState == 4 && http.status == 200) {
       document.getElementsByTagName('body')[0].style.background = '#fff'; 
       document.querySelector('body').classList.remove('ubermate'); 
@@ -44,6 +46,8 @@ var postIt = function(str) {
 };
 
 var doIt = function() {
+  document.getElementsByTagName('body')[0].style.background = 'black'
+
   if(index % 3 == 0) {
     document.querySelector('body').classList.add('ubermate'); 
   } else {
@@ -51,6 +55,13 @@ var doIt = function() {
   } 
   index++;
 };
+
+var report = function(event) {
+  console.log('received event: ' + event.type);
+  if(event.error) {
+    console.log(event.error + ': ' + event.message);
+  }
+}
 
 var start = function() {
   if (!('webkitSpeechRecognition' in window)) {
@@ -60,39 +71,50 @@ var start = function() {
 
     recognition.continuous = true;
     recognition.interimResults = true;
-
-    recognition.onstart = function() {
-      console.log('Recognition did start...');
-    };
+    recognition.lang = 'en-US';
 
     recognition.onresult = function(event) {
       for (var i = event.resultIndex; i < event.results.length; ++i) {
+        var transcript = event.results[i][0].transcript.toUpperCase();
+        transcript = transcript
+          .replace('F******', 'FUCKING')
+          .replace('F*****', 'FUCKER')
+          .replace('F***', 'FUCK')
+          .replace('S*****', 'SHITEY')
+          .replace('S***', 'SHIT')
+          .replace('A******', 'ASSHOLE')
+          .replace('B****', 'BITCH')
+          .replace('S****', 'SLUTY')
+          .replace('A**', 'ASS')
+        
+        document.querySelector('h1').innerHTML = transcript;
+
         if (event.results[i].isFinal) {
-          var str = event.results[i][0].transcript;
-          console.log('Final: ' + str);
-          document.querySelector('h1').innerHTML = event.results[i][0].transcript.toUpperCase();
+          console.log('Final: ' + transcript);
           doIt();
-          postIt(str);
+          postIt(transcript);
         } else {
-          console.log('Interim: ' + event.results[i][0].transcript);
-          document.querySelector('h1').innerHTML = event.results[i][0].transcript.toUpperCase(); 
+          console.log('Interim: ' + transcript);
         }
       }
     };
 
-    recognition.onerror = function(event) {
-      console.log('Recognition did error: ' + JSON.stringify(event));
-      //recognition.start();
-    };
+    recognition.addEventListener('error', report);
+    recognition.addEventListener('audiostart', report);
+    recognition.addEventListener('audioend', report);
+    recognition.addEventListener('nomatch', report);
+    recognition.addEventListener('soundstart', report);
+    recognition.addEventListener('soundend', report);
+    recognition.addEventListener('speechstart', report);
+    recognition.addEventListener('speechend', report);
+    recognition.addEventListener('start', report);
 
     recognition.onend = function() {
-      console.log('Recognition did end.');
+      console.log('restarting recognition...');
       recognition.start();
     };
 
-    recognition.lang = 'en-US';
     recognition.start();
-
   }
 };
 
