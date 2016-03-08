@@ -17,7 +17,6 @@ var postIt = function(str) {
   var http = new XMLHttpRequest();
   var url = '/';
   var params = "str=" + str;
-  console.log('post ' + url);
   http.open("POST", url, true);
   http.onreadystatechange = function() {
     console.log('post reply: ' + http.status);
@@ -57,9 +56,10 @@ var doIt = function() {
 };
 
 var report = function(event) {
-  console.log('received event: ' + event.type);
   if(event.error) {
-    console.log(event.error + ': ' + event.message);
+    console.log('error: ' + event.error + ': ' + event.message);
+  } else {
+    console.log('received event: ' + event.type);
   }
 }
 
@@ -74,28 +74,29 @@ var start = function() {
     recognition.lang = 'en-US';
 
     recognition.onresult = function(event) {
-      for (var i = event.resultIndex; i < event.results.length; ++i) {
-        var transcript = event.results[i][0].transcript.toUpperCase();
-        transcript = transcript
-          .replace('F******', 'FUCKING')
-          .replace('F*****', 'FUCKER')
-          .replace('F***', 'FUCK')
-          .replace('S*****', 'SHITEY')
-          .replace('S***', 'SHIT')
-          .replace('A******', 'ASSHOLE')
-          .replace('B****', 'BITCH')
-          .replace('S****', 'SLUTY')
-          .replace('A**', 'ASS')
-        
-        document.querySelector('h1').innerHTML = transcript;
+      // console.log(event.resultIndex + ', ' + event.results.length);
 
-        if (event.results[i].isFinal) {
-          console.log('Final: ' + transcript);
-          doIt();
-          postIt(transcript);
-        } else {
-          console.log('Interim: ' + transcript);
-        }
+      var result = event.results[event.resultIndex];
+      var transcript = result[0].transcript.toUpperCase();
+      transcript = transcript
+        .replace('F******', 'FUCKING')
+        .replace('F*****', 'FUCKER')
+        .replace('F***', 'FUCK')
+        .replace('S*****', 'SHITEY')
+        .replace('S***', 'SHIT')
+        .replace('A******', 'ASSHOLE')
+        .replace('B****', 'BITCH')
+        .replace('S****', 'SLUTY')
+        .replace('A**', 'ASS')
+      
+      document.querySelector('h1').innerHTML = transcript;
+
+      if (result.isFinal) {
+        console.log('Final: ' + transcript);
+        doIt();
+        postIt(transcript);
+      } else {
+        console.log('Interim: ' + transcript);
       }
     };
 
