@@ -15,10 +15,11 @@ var index = 0;
 
 var postIt = function(str) {
   var http = new XMLHttpRequest();
-  var url = "https://localhost/";
+  var url = '/';
   var params = "str=" + str;
   http.open("POST", url, true);
   http.onreadystatechange = function() {
+    console.log('post reply: ' + http.status);
     if (http.readyState == 4 && http.status == 200) {
       document.getElementsByTagName('body')[0].style.background = '#fff'; 
       document.querySelector('body').classList.remove('ubermate'); 
@@ -44,6 +45,8 @@ var postIt = function(str) {
 };
 
 var doIt = function() {
+  document.getElementsByTagName('body')[0].style.background = 'black'
+
   if(index % 3 == 0) {
     document.querySelector('body').classList.add('ubermate'); 
   } else {
@@ -52,48 +55,79 @@ var doIt = function() {
   index++;
 };
 
+var report = function(event) {
+  if(event.error) {
+    console.log('error: ' + event.error + ': ' + event.message);
+  } else {
+    console.log('received event: ' + event.type);
+  }
+}
+
 var start = function() {
   if (!('webkitSpeechRecognition' in window)) {
     console.log('webkit speech not supported');
-  } else {
-    var recognition = new webkitSpeechRecognition();
-
-    recognition.continuous = true;
-    recognition.interimResults = true;
-
-    recognition.onstart = function() {
-      console.log('Recognition did start...');
-    };
-
-    recognition.onresult = function(event) {
-      for (var i = event.resultIndex; i < event.results.length; ++i) {
-        if (event.results[i].isFinal) {
-          var str = event.results[i][0].transcript;
-          console.log('Final: ' + str);
-          document.querySelector('h1').innerHTML = event.results[i][0].transcript.toUpperCase();
-          doIt();
-          postIt(str);
-        } else {
-          console.log('Interim: ' + event.results[i][0].transcript);
-          document.querySelector('h1').innerHTML = event.results[i][0].transcript.toUpperCase(); 
-        }
-      }
-    };
-
-    recognition.onerror = function(event) {
-      console.log('Recognition did error: ' + JSON.stringify(event));
-      //recognition.start();
-    };
-
-    recognition.onend = function() {
-      console.log('Recognition did end.');
-      recognition.start();
-    };
-
-    recognition.lang = 'en-US';
-    recognition.start();
-
+    return;
   }
+
+  var recognition = new webkitSpeechRecognition();
+  var lastUpdate = new Date();
+
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.lang = 'en-US';
+
+  recognition.onresult = function(event) {
+    lastUpdate = new Date();
+
+    var result = event.results[event.resultIndex];
+    var transcript = result[0].transcript.toUpperCase();
+    transcript = transcript
+      .replace('F******', 'FUCKING')
+      .replace('F*****', 'FUCKER')
+      .replace('F***', 'FUCK')
+      .replace('S*****', 'SHITEY')
+      .replace('S***', 'SHIT')
+      .replace('A******', 'ASSHOLE')
+      .replace('B****', 'BITCH')
+      .replace('S****', 'SLUTY')
+      .replace('A**', 'ASS')
+    
+    document.querySelector('h1').innerHTML = transcript;
+
+    if (result.isFinal) {
+      console.log('Final: ' + transcript);
+      doIt();
+      postIt(transcript);
+    } else {
+      console.log('Interim: ' + transcript);
+    }
+  };
+
+  recognition.addEventListener('error', report);
+  recognition.addEventListener('audiostart', report);
+  recognition.addEventListener('audioend', report);
+  recognition.addEventListener('nomatch', report);
+  recognition.addEventListener('soundstart', report);
+  recognition.addEventListener('soundend', report);
+  recognition.addEventListener('speechstart', report);
+  recognition.addEventListener('speechend', report);
+  recognition.addEventListener('start', report);
+
+  recognition.onend = function() {
+    console.log('restarting recognition...');
+    recognition.start();
+  };
+
+  recognition.start();
+
+  setInterval(function() {
+    var now = new Date();
+    if(now - lastUpdate > 10000) {
+      console.log('warning: resetting idle recognizer')
+      lastUpdate = now;
+      recognition.abort();
+    }
+  }, 1000);
 };
 
 start();
