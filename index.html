@@ -87,17 +87,17 @@ var start = function() {
     var result = event.results[event.resultIndex];
     var transcript = result[0].transcript.toUpperCase();
     transcript = transcript
-      .replaceAll('F******', 'FUCKING')
-      .replaceAll('F*****', 'FUCKER')
-      .replaceAll('F***', 'FUCK')
-      .replaceAll('S*****', 'SHITEY')
-      .replaceAll('S****', 'SLUTY')
-      .replaceAll('S***', 'SHIT')
-      .replaceAll('B*******', 'BULLSHIT')
-      .replaceAll('B****', 'BITCH')
-      .replaceAll('A******', 'ASSHOLE')
-      .replaceAll('A**', 'ASS')
-      .replaceAll('C***', 'CUNT')
+      .replaceAll('F\\*\\*\\*\\*\\*\\*', 'FUCKING')
+      .replaceAll('F\\*\\*\\*\\*\\*', 'FUCKER')
+      .replaceAll('F\\*\\*\\*', 'FUCK')
+      .replaceAll('S\\*\\*\\*\\*\\*', 'SHITEY')
+      .replaceAll('S\\*\\*\\*\\*', 'SLUTY')
+      .replaceAll('S\\*\\*\\*', 'SHIT')
+      .replaceAll('B\\*\\*\\*\\*\\*\\*\\*', 'BULLSHIT')
+      .replaceAll('B\\*\\*\\*\\*', 'BITCH')
+      .replaceAll('A\\*\\*\\*\\*\\*\\*', 'ASSHOLE')
+      .replaceAll('A\\*\\*', 'ASS')
+      .replaceAll('C\\*\\*\\*', 'CUNT')
     
     document.querySelector('h1').innerHTML = transcript;
 
