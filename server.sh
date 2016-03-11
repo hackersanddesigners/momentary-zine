@@ -4,6 +4,7 @@ import SocketServer
 import ssl
 import urlparse
 import urllib, json
+import urllib2
 
 import syslog
 import time
@@ -43,10 +44,34 @@ def create_content(str, img):
         print_content = ''
     else:
         print 'not printing (size = %i)' % char_count
-    
+
+def get_imgur(transcript):
+    words = transcript.split()
+    words = sorted(words, key=len)
+    word = words[len(words) - 1]
+    url = 'https://api.imgur.com/3/gallery/search?q=' + urllib.quote(word)
+    req = urllib2.Request(url)
+    req.add_header('Authorization', 'Client-ID 62a1dd4dde196de')
+    resp = urllib2.urlopen(req)
+    data = json.loads(resp.read())
+    urls = []
+    for item in data['data']:
+        try:
+            url = item['link']
+            if url.startswith('http'):
+                urls.append(url)
+        except:
+            pass
+
+    if urls:
+        n = random.randint(0, len(urls) - 1)
+        print 'found image: %s' % urls[n]
+        return urls[n]
+    else:
+        print 'found no image'
+        return ' '
 
 def get_image(transcript):
-    import urllib
     url = 'https://www.googleapis.com/customsearch/v1?q=' + urllib.quote(transcript) + '&safe=off&num=10&cx=015700006039354317064:q1iz_ozoiqg&key=AIzaSyA4uO6dS4qA3D6NxfzaIXPQsWir8L_nT1A&alt=json'
     resp = urllib.urlopen(url)
     data = json.loads(resp.read())
@@ -103,7 +128,7 @@ class S(BaseHTTPRequestHandler):
 
         self._set_headers()
         if transcript:
-            url = get_image(transcript)
+            url = get_imgur(transcript)
             create_content(transcript, url)
             self.wfile.write(url)
         else:
