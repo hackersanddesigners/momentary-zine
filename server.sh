@@ -46,10 +46,12 @@ def create_content(str, img):
         print 'not printing (size = %i)' % char_count
 
 def get_imgur(transcript):
+    types = ['png', 'jpg', 'gif', 'anigif']
+    rtype = types[random.randint(0, len(types) - 1)]
     words = transcript.split()
     words = sorted(words, key=len)
     word = words[len(words) - 1]
-    url = 'https://api.imgur.com/3/gallery/search?q=' + urllib.quote(word)
+    url = 'https://api.imgur.com/3/gallery/search?q=' + urllib.quote(word) +'&q_type=' + rtype
     req = urllib2.Request(url)
     req.add_header('Authorization', 'Client-ID 62a1dd4dde196de')
     resp = urllib2.urlopen(req)
