@@ -13,6 +13,8 @@ Thermo print has the characteristic of vanishing after a while. With an easy hac
 
 ### Start the websserver
 
+  Run the following command in Terminal/Command-line from inside the directory/folder (likely momentary-zine) you got from git.
+
   $ sudo ./server.sh
 
 ### Configuration
