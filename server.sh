@@ -23,7 +23,7 @@ def print_page(content):
     html_file.write(content)
     html_file.close()
     #wkhtmltopdf --page-width 100mm --page-height 200mm test.html test.pdf
-    call(["wkhtmltopdf", "--page-width", "80mm", "--page-height", "200mm", "zine.html", "zine.pdf"])
+    call(["/home/jbg/Downloads/wkhtmltox/bin/wkhtmltopdf", "--page-width", "80mm", "--page-height", "200mm", "zine.html", "zine.pdf"])
     call(["lp", "zine.pdf"])
     return
 
