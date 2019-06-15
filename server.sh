@@ -11,35 +11,53 @@ import time
 import sys
 import random
 import threading
+import datetime
+import time
+
 
 from subprocess import call
 
-template = "<div><center><img src='THE_IMAGE' style='max-width: 130px;'></center><p style='font-size: 14pt; font-family: helvetica'>THE_TEXT</p></div>"
+font_sizes = [ 50 ]
+image_sizes = [ 600, 1000 ]
+
+templates = [
+  "<div><center><img src='THE_IMAGE' style='max-width: 1000px;' onerror=\"this.style.display='none'\"></center><p style='max-width: 1000pt; word-wrap:break-word; font-size: FONT_SIZEpt; font-family: helvetica'>THE_TEXT</p></div>"
+  #"<div><center><img src='THE_IMAGE' style='position: absolute;' onerror=\"this.style.display='none'\"></center><p style='max-width: 72pt; word-wrap: break-word; font-size: FONT_SIZEpt; font-family: helvetica; position: absolute;'>THE_TEXT</p></div>"
+]
+
 print_content = ''
 char_count = 0
 
 def print_page(content):
     html_file = open('zine.html', 'w')
+    timestamp = time.ctime()
+    pdf_file = "zine_" + timestamp + ".pdf"
     html_file.write(content)
     html_file.close()
     #wkhtmltopdf --page-width 100mm --page-height 200mm test.html test.pdf
-    call(["/home/jbg/Downloads/wkhtmltox/bin/wkhtmltopdf", "--page-width", "80mm", "--page-height", "200mm", "zine.html", "zine.pdf"])
-    call(["lp", "zine.pdf"])
+    call(["wkhtmltopdf", "--page-width", "210mm", "--page-height", "297mm", "zine.html", pdf_file])
+    call(["lp", pdf_file])
     return
 
-def create_content(str, img):
+def create_content(string, img):
+    template = templates[random.randint(0, len(templates) - 1)]
+    font_size = font_sizes[random.randint(0, len(font_sizes) - 1)]
+    image_size = image_sizes[random.randint(0, len(image_sizes) - 1)]
+
     content = template.replace('THE_IMAGE', img)
-    content = content.replace('THE_TEXT', str)
+    content = content.replace('THE_TEXT', string)
+    content = content.replace('IMAGE_SIZE', str(image_size))
+    content = content.replace('FONT_SIZE', str(font_size))
 
     global char_count, print_content
-    char_count = char_count + len(str)
+    char_count = char_count + len(string)
     print_content += content
 
     if char_count > 150 or 'PRINT' in print_content:
         print 'printing (size = %i)' % char_count
         print_page(print_content)
         #t = threading.Thread(target=print_page, args=(print_content,))
-        #t.start() 
+        #t.start()
         char_count = 0
         print_content = ''
     else:
@@ -153,4 +171,3 @@ def parse_args():
 if __name__ == '__main__':
     args = parse_args()
     run_server(port=args.port)
-
