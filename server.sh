@@ -74,7 +74,7 @@ def get_imgur(transcript):
         return ' '
 
 def get_image(transcript):
-    url = 'https://www.googleapis.com/customsearch/v1?q=' + urllib.quote(transcript) + '&safe=off&num=10&cx=015700006039354317064:q1iz_ozoiqg&key=AIzaSyA4uO6dS4qA3D6NxfzaIXPQsWir8L_nT1A&alt=json'
+    url = 'https://www.googleapis.com/customsearch/v1?q=' + urllib.quote(transcript) + '&safe=off&num=10&cx=015700006039354317064:q1iz_ozoiqg&key=XXXXXX&alt=json'
     resp = urllib.urlopen(url)
     data = json.loads(resp.read())
     urls = []
