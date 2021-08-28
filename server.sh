@@ -23,7 +23,7 @@ def print_page(content):
     html_file.write(content)
     html_file.close()
     #wkhtmltopdf --page-width 100mm --page-height 200mm test.html test.pdf
-    call(["/home/jbg/Downloads/wkhtmltox/bin/wkhtmltopdf", "--page-width", "80mm", "--page-height", "200mm", "zine.html", "zine.pdf"])
+    call(["wkhtmltopdf", "--page-width", "80mm", "--page-height", "200mm", "zine.html", "zine.pdf"])
     call(["lp", "zine.pdf"])
     return
 
@@ -39,7 +39,7 @@ def create_content(str, img):
         print 'printing (size = %i)' % char_count
         print_page(print_content)
         #t = threading.Thread(target=print_page, args=(print_content,))
-        #t.start() 
+        #t.start()
         char_count = 0
         print_content = ''
     else:
@@ -58,10 +58,17 @@ def get_imgur(transcript):
     data = json.loads(resp.read())
     urls = []
     for item in data['data']:
+        # print(">>>")
+        # print(json.dumps(item, indent = 1))
+        # print("<<</n")
         try:
-            url = item['link']
-            if url.startswith('http'):
-                urls.append(url)
+            for image in item['images']:
+                try:
+                    url = image['link'];
+                    if url.startswith('http'):
+                        urls.append(url)
+                except:
+                    pass
         except:
             pass
 
@@ -153,4 +160,3 @@ def parse_args():
 if __name__ == '__main__':
     args = parse_args()
     run_server(port=args.port)
-
