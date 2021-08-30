@@ -21,11 +21,11 @@ var postIt = function(str) {
   http.onreadystatechange = function() {
     console.log('post reply: ' + http.status);
     if (http.readyState == 4 && http.status == 200) {
-      document.getElementsByTagName('body')[0].style.background = '#fff'; 
-      document.querySelector('body').classList.remove('ubermate'); 
-      document.querySelector('body').classList.remove('animate'); 
+      document.getElementsByTagName('body')[0].style.backgroundColor = '#fff';
+      document.querySelector('body').classList.remove('ubermate');
+      document.querySelector('body').classList.remove('animate');
       background =  'url(' + http.responseText + ')';
-      document.getElementsByTagName('body')[0].style.background = background; 
+      document.getElementsByTagName('body')[0].style.backgroundImage = background;
     }
   }
 
@@ -45,13 +45,13 @@ var postIt = function(str) {
 };
 
 var doIt = function() {
-  document.getElementsByTagName('body')[0].style.background = 'black'
+  document.getElementsByTagName('body')[0].style.backgroundColor = 'black'
 
   if(index % 3 == 0) {
-    document.querySelector('body').classList.add('ubermate'); 
+    document.querySelector('body').classList.add('ubermate');
   } else {
-    document.querySelector('body').classList.add('animate'); 
-  } 
+    document.querySelector('body').classList.add('animate');
+  }
   index++;
 };
 
@@ -79,7 +79,7 @@ var start = function() {
 
   recognition.continuous = true;
   recognition.interimResults = true;
-  recognition.lang = 'en-US';
+  recognition.lang = 'en_US';
 
   recognition.onresult = function(event) {
     lastUpdate = new Date();
@@ -98,7 +98,7 @@ var start = function() {
       .replaceAll('A\\*\\*\\*\\*\\*\\*', 'ASSHOLE')
       .replaceAll('A\\*\\*', 'ASS')
       .replaceAll('C\\*\\*\\*', 'CUNT')
-    
+
     document.querySelector('h1').innerHTML = transcript;
 
     if (result.isFinal) {
