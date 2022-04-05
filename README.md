@@ -34,7 +34,7 @@ Or
 
   Run the following command in Terminal/Command-line from inside the directory/folder _momentary-zine-master_ you got from git. 
 
-  $ sudo ./server.sh
+  _$ sudo ./server.sh_
   
   If it asks for a password, it wants the pass of your laptop/computer. If you don't want to keep logging in every time you restart the server, use the command _sudi -i_, fill in your password. Then run the _./server.sh_ command
   
@@ -45,6 +45,9 @@ Or
 **Microphone**
 
   If you have attached an external microphone, check the system preferences/settings for your audio devices. The USB mic we have at H&D doesn't need a driver. In your system settings, make sure the USB mic is selected as output device. 
+  
+ ![micmic](https://user-images.githubusercontent.com/7869045/161714523-1710768c-6707-462f-9054-829a5e5ed411.png)
+
 
 **Receipt printer**
 
@@ -86,13 +89,15 @@ Or
   
   You likely don't need to upload a driver file as it's already installed
   
-  [INSERT REST OF STEPS HERE]
+  Select the right build of Star Printer (TSP100 with cutter)
   
+  <img width="1680" alt="star_cutter_addprinter" src="https://user-images.githubusercontent.com/7869045/161714720-2a3dd2ad-9a9c-413f-800a-cc2906faea15.png">
+
   If it is installed, go to _Printers_  
   
   In the dropdown that says _Administration_, choose _Set default options_
   
-  * In _General_, set 72mm x 200mm as media size using the dropdown 
+  * In _General_, set 72mm x 200mm as media size using the dropdown (if you don't set this right the images will be teeny tiny)
   * Go to _Cut Options_ and set both to **Partial cut**
   * Go o _Output Options_ and select page type: **Fixed length**
 
@@ -111,6 +116,11 @@ Or
   ![notprivate](https://user-images.githubusercontent.com/7869045/161421807-50c6b0cd-d251-4d41-9fc8-c53014a61703.png)
   
   You should now get a white screen with in the bottom the words "Speak into the mic".
+  
+  Open the developer tools to see how the page is performing and if there are any hickups
+  
+  ![Screenshot 2022-04-05 at 10 45 57](https://user-images.githubusercontent.com/7869045/161715345-deeedbaf-b117-41be-b3c2-f0fee4cd9f22.png)
+
 
  ### Voice commands
   
@@ -120,13 +130,15 @@ Or
   
   ### Check terminal if it doesn't print
   
-  You can review pending print jobs and error in the CUPS interface for troubleshooting: http://localhost:631/printers, and the terminal window gives a bunch of information, like print jobs that are loading (sometimes takes a while). 
+  You can review pending print jobs and error in the CUPS interface for troubleshooting: http://localhost:631/printers, and the terminal window gives a bunch of information, like print jobs that are loading (sometimes takes a while, but the terminal gives a percentage to show how the process is going). 
 
   ### Troubleshooting
   
   No prints? Your print jobs might be sent to a different printer in your list installed printers? 
   
   Go into system settings on computer and make set the Star printer as default printer.
+  
+  Note: the mic's cabling (of the H&D mic) is a little wonky and we think it has cable breaks or bad connection with the hardware. If it's not working, try using internal mic of your laptop to see if that works. If it does, fix mic problems or replace? 
 
 
 
