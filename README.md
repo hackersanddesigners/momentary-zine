@@ -19,9 +19,9 @@ Thermo print has the characteristic of vanishing after a while. With an easy hac
 
   Run the following command in Terminal/Command-line from inside the directory/folder _momentary-zine-master_ you got from git. 
 
-  $ sudo ./server.sh
+  ```$ sudo ./server.sh```
   
-  If it asks for a password, it wants the pass of your laptop/computer.
+  If it asks for a password, it wants the pass of your laptop/computer. Don't worry it's in localhost.
   
   (If you want to stop the server, hit control + C)
 
@@ -35,14 +35,10 @@ Thermo print has the characteristic of vanishing after a while. With an easy hac
 
   If you have a printer, particularly, a receipt printer or something with non-standard format, configure it with CUPS in the browser. CUPS is a standards-based, open source printing system developed by for Apple products. CUPS uses IPP Everywhere™ to support printing to local and network printers: http://www.cups.org/
   
-  The receipt printer at H&D is a Star TSP100 FuturePRNT with cutting feature. You can find the necessary CUPS driver here: https://www.starmicronics.com/support/default.aspx?printerCode=CUPS_for_Mac 
+ A copy of the driver we used (Star CUPS 4.8) is included in this repository, or can be downloaded here: https://starmicronics.com/support/download/software-manual-for-macos-cups-driver/
   
-  Put in the settings: 
-  * Product type = CUPS drivers
-  * Printer family = CUPS_for_Mac
-
-  then if you scroll down you will see the recommended driver to download: [macOS CUPS Driver V4.8.0](https://www.starmicronics.com/Support/download.aspx?type=1&tabText=macOS%20CUPS%20Driver%20V4.8.0&path=DriverFolder\drvr\Star_CUPS_Driver-4.8.0_mac.zip&id=1755&referrer=https://www.google.com/) Install the driver
-  
+  The receipt printer at H&D is a Star TSP100 FuturePRNT with cutting feature. You can find the necessary CUPS driver here: https://starmicronics.com/support/products/tsp100iii-support-page/ The process described here is how to use momentary zine on a mac. 
+    
   **Setting up the printer via CUPS**
   
   Navigate to this page in Chrome browser: 
@@ -55,7 +51,7 @@ Thermo print has the characteristic of vanishing after a while. With an easy hac
 
   Enable CUPS by copying the command:
   
-  cupsctl WebInterface=yes
+  ```cupsctl WebInterface=yes```
   
   and pasting it into a terminal window (if server is running, quit first by hitting control + C), then hit enter.
   
@@ -70,9 +66,7 @@ Thermo print has the characteristic of vanishing after a while. With an easy hac
   Select that one and press continue
   
   You likely don't need to upload a driver file as it's already installed
-  
-  [INSERT REST OF STEPS HERE]
-  
+    
   If it is installed, go to _Printers_  
   
   In the dropdown that says _Administration_, choose _Set default options_
@@ -81,9 +75,11 @@ Thermo print has the characteristic of vanishing after a while. With an easy hac
   * Go to _Cut Options_ and set both to **Partial cut**
   * Go o _Output Options_ and select page type: **Fixed length**
 
+  See STAR software manual for full explanation of options (file comes with driver).
+
 ### Browse to (Only works in Chrome):
 
-  Make sure the server is running by running the command _sudo ./server.sh_ from the location of the _momentary-zine-master_ folder
+  Make sure the server is running by running the command ```sudo ./server.sh``` from the location of the _momentary-zine-master_ folder
 
   Now browse to the interface by putting this url in your Chrome browser
   
@@ -91,13 +87,13 @@ Thermo print has the characteristic of vanishing after a while. With an easy hac
 
   Remember to give your browser permission to access your microphone.
 
- ### Voice commands
+### Voice commands
   
   Start speaking to provide content for the momentary zine
   
   Say the word PRINT to print a segment when you are happy with it.
   
-  ### Check terminal if it doesn't print
+### Check terminal if it doesn't print
   
   Is it sent to a different printer in your installed printers? 
   
