@@ -1,0 +1,12 @@
+/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_
+
+  How to Use (register usb serial number)
+
+/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_
+
+1: Create USB Printer Queue.
+
+2: Set as a Default printer.
+
+3: Execute Termnal, then input "./USBSerialNumber.sh" and return Enter key.
+
