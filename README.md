@@ -106,9 +106,11 @@ Thermo print has the characteristic of vanishing after a while. With an easy hac
 There is a new branch in github: python3
 
 ```
-$ git clone git@github.com:hackersanddesigners/momentary-zine.git
+$ git clone https://github.com/hackersanddesigners/momentary-zine.git 
 
 $ cd momentary-zine
+
+$ git fetch -a
 
 $ git checkout -b python3 origin/python3
 
