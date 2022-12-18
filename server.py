@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import socketserver
 import ssl

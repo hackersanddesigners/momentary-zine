@@ -108,6 +108,8 @@ There is a new branch in github: python3
 ```
 $ git clone git@github.com:hackersanddesigners/momentary-zine.git
 
+$ cd momentary-zine
+
 $ git checkout -b python3 origin/python3
 
 $ sudo ./server.py
