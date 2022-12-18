@@ -119,7 +119,7 @@ $ sudo ./server.py
 
 ### urllib and "SSL: CERTIFICATE_VERIFY_FAILED" Error
 
-Try, consider/replace python version [1](ihttps://stackoverflow.com/questions/27835619/urllib-and-ssl-certificate-verify-failed-error)
+Try, consider/replace python version (1)[https://stackoverflow.com/questions/27835619/urllib-and-ssl-certificate-verify-failed-error]
 
 ```
 $ /Applications/Python\ 3.11/Install\ Certificates.command
