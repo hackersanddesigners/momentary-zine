@@ -101,6 +101,15 @@ Thermo print has the characteristic of vanishing after a while. With an easy hac
   
   You can review pending print jobs and error in the CUPS interface to for troubleshooting: http://localhost:631/printers
 
+## Python3 Support - Update
 
+There is a new branch in github: python3
 
+```
+$ git clone git@github.com:hackersanddesigners/momentary-zine.git
+
+$ git checkout -b python3 origin/python3
+
+$ sudo ./server.py
+```
 
