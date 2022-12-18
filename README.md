@@ -19,7 +19,7 @@ Thermo print has the characteristic of vanishing after a while. With an easy hac
 
   Run the following command in Terminal/Command-line from inside the directory/folder _momentary-zine-master_ you got from git. 
 
-  ```$ sudo ./server.sh```
+  ```$ sudo ./server.py```
   
   If it asks for a password, it wants the pass of your laptop/computer. Don't worry it's in localhost.
   
