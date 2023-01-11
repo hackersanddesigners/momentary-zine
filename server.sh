@@ -14,7 +14,7 @@ import threading
 
 from subprocess import call
 
-template = "<div><center><img src='THE_IMAGE' style='max-width: 130px;'></center><p style='font-size: 14pt; font-family: helvetica'>THE_TEXT</p></div>"
+template = "<div><center><img src='THE_IMAGE' style='max-width: 280px;'></center><p style='font-size: 24pt; font-family: helvetica'>THE_TEXT</p></div>"
 print_content = ''
 char_count = 0
 
@@ -23,7 +23,7 @@ def print_page(content):
     html_file.write(content)
     html_file.close()
     #wkhtmltopdf --page-width 100mm --page-height 200mm test.html test.pdf
-    call(["wkhtmltopdf", "--page-width", "80mm", "--page-height", "200mm", "zine.html", "zine.pdf"])
+    call(["wkhtmltopdf", "--page-width", "72mm", "--page-height", "200mm", "zine.html", "zine.pdf"])
     call(["lp", "zine.pdf"])
     return
 

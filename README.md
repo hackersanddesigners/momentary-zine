@@ -101,6 +101,11 @@ Thermo print has the characteristic of vanishing after a while. With an easy hac
   
   You can review pending print jobs and error in the CUPS interface to for troubleshooting: http://localhost:631/printers
 
+## Changing font size and image size of print
+
+In line 17 of server.h you can edit these parameters. 
+
+
 ## Python3 Support - Update
 
 There is a new branch in github: python3
