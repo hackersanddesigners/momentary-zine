@@ -14,7 +14,7 @@ import threading
 
 from subprocess import call
 
-template = "<div><center><img src='THE_IMAGE' style='max-width: 130px;'></center><p style='font-size: 14pt; font-family: helvetica'>THE_TEXT</p></div>"
+template = "<div><center><img src='THE_IMAGE' style='max-width: 280px;'></center><p style='font-size: 24pt; font-family: helvetica'>THE_TEXT</p></div>"
 print_content = ''
 char_count = 0
 
