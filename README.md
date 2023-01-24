@@ -9,7 +9,7 @@ Thermo print has the characteristic of vanishing after a while. With an easy hac
 
 ## Dependencies
 
- Install WK HTML to Pdf. Download here http://wkhtmltopdf.org/downloads.html
+ * Install WK HTML to Pdf. Download here http://wkhtmltopdf.org/downloads.html
   
 ## Usage
 
@@ -59,13 +59,11 @@ Thermo print has the characteristic of vanishing after a while. With an easy hac
   
   Under _CUPS for Administrators_ click _Adding printers and Classes_
   
-  If all went well it should say _Star TSP143 (SRT_T_001)(Star TSP143 (STR_T_001))_ at the top
+  If all went well it should say _Star TSP143 (SRT_T_001)(Star TSP143 (STR_T_001))_ at the top under "local printers"
   
   <img width="1680" alt="Screenshot 2022-03-24 at 13 45 48" src="https://user-images.githubusercontent.com/7869045/159970816-bc18b088-24a7-412c-b928-8a6c77785537.png">
   
-  Select that one and press continue
-  
-  You likely don't need to upload a driver file as it's already installed
+  Select that one and press continue. Then select the STAR TSP100 CUTTER and continue to select the right driver for the printers we have.
     
   If it is installed, go to _Printers_  
   
@@ -74,6 +72,10 @@ Thermo print has the characteristic of vanishing after a while. With an easy hac
   * In _General_, set 72mm x 200mm as media size using the dropdown 
   * Go to _Cut Options_ and set both to **Partial cut**
   * Go o _Output Options_ and select page type: **Fixed length**
+
+ If it asks for an admin password you have to input the username of your computer and the corresponding pass (again: the CUPS program is running locally not on the web, you're just viewing the tool in a browser window)
+
+  Go to the printer settings on your computer and make sure STAR TSP100 (or whatever name you gave it) is set as default printer. 
 
   See STAR software manual for full explanation of options (file comes with driver).
 
@@ -93,6 +95,8 @@ Thermo print has the characteristic of vanishing after a while. With an easy hac
   
   Say the word PRINT to print a segment when you are happy with it.
   
+  If the tool records more than 150 characters it will automatically print to empty the buffer.
+  
 ### Check terminal if it doesn't print
   
   Is it sent to a different printer in your installed printers? 
@@ -100,15 +104,22 @@ Thermo print has the characteristic of vanishing after a while. With an easy hac
   Go into system settings on computer and make set the Star printer as default printer
   
   You can review pending print jobs and error in the CUPS interface to for troubleshooting: http://localhost:631/printers
+  
+  If nothing works, terminate the server process in terminal by hitting CTRL + C. Then restart the server. 
 
 ## Changing font size and image size of print
 
-In line 17 of server.h you can edit these parameters. 
+In line 17 of server.h you can edit these parameters. Typically this is set to 280 px image width and font size 24 pt.
+
+```
+template = "<div><center><img src='THE_IMAGE' style='max-width: 280px;'></center><p style='font-size: 24pt; font-family: helvetica'>THE_TEXT</p></div>"
+```
 
 
 ## Python3 Support - Update
 
-There is a new branch in github: python3
+There is a new branch in github, in case you have python3
+You can find the branch [here](https://github.com/hackersanddesigners/momentary-zine/tree/python3)
 
 ```
 $ git clone https://github.com/hackersanddesigners/momentary-zine.git 
