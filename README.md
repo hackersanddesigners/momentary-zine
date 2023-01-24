@@ -119,6 +119,7 @@ template = "<div><center><img src='THE_IMAGE' style='max-width: 280px;'></center
 ## Python3 Support - Update
 
 There is a new branch in github, in case you have python3
+You can find the branch [here](https://github.com/hackersanddesigners/momentary-zine/tree/python3)
 
 ```
 $ git clone https://github.com/hackersanddesigners/momentary-zine.git 
