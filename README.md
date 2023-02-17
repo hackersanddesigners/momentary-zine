@@ -25,46 +25,55 @@ Thermo print has the characteristic of vanishing after a while. With an easy hac
   
   (If you want to stop the server, hit control + C)
 
-### Configuration
+## Configuration Receipt printer
 
-**Microphone**
+### Install CUPS
 
-  If you have attached an external microphone, check the system preferences/settings for your audio devices. The USB mic we have at H&D doesn't need a driver.
-
-**Receipt printer**
-
-  If you have a printer, particularly, a receipt printer or something with non-standard format, configure it with CUPS in the browser. CUPS is a standards-based, open source printing system developed by for Apple products. CUPS uses IPP Everywhere™ to support printing to local and network printers: http://www.cups.org/
+  If you have a printer, particularly, a receipt printer or something with non-standard format, configure it with CUPS in the browser. CUPS is a standards-based, open source printing system developed by for Apple products. CUPS uses IPP Everywhere™ to support printing to local and network printers.
   
- A copy of the driver we used (Star CUPS 4.8) is included in this repository, or can be downloaded here: https://starmicronics.com/support/download/software-manual-for-macos-cups-driver/
+  Download and install the latest version for Mac: [https://www.cups.org/](https://www.cups.org/)
   
-  The receipt printer at H&D is a Star TSP100 FuturePRNT with cutting feature. You can find the necessary CUPS driver here: https://starmicronics.com/support/products/tsp100iii-support-page/ The process described here is how to use momentary zine on a mac. 
+  The receipt printer described here is a Star TSP100 FuturePRNT with cutting feature. 
     
   **Setting up the printer via CUPS**
   
-  Navigate to this page in Chrome browser: 
+  When CUPS is installed. Restart your computer. 
+  
+  Then navigate to this page in *Google Chrome browser*: 
 
   [http://localhost:631] (http://localhost:631)
   
-  As the CUPS Web Interface may be disabled by default on your Mac, you will need to enable it in order to have your Thermal Receipt printers appear on the network. A screen will then appear saying _Web Interface is Disabled_. An indication that CUPS has been disabled on your particular Mac device. 
+  As the CUPS Web Interface may be disabled by default on your Mac, you will need to enable it in order to have your Thermal Receipt printers appear on the network. If this is the case, a screen will then appear saying _Web Interface is Disabled_. An indication that CUPS has been disabled on your particular Mac device. 
   
   ![Web_interface_disabled_00](https://user-images.githubusercontent.com/7869045/159969739-04d4c8d0-4930-4328-84c6-a765ab6fc882.png)
 
-  Enable CUPS by copying the command:
+  **To enable CUPS** 
+  
+  Open the application **Terminal** on your Mac. In the window that opens, copy/paste the following command and press ENTER.
   
   ```cupsctl WebInterface=yes```
   
-  and pasting it into a terminal window (if server is running, quit first by hitting control + C), then hit enter.
   
-  Now refresh the page with the url http://localhost:631, and the CUPS interface should show up and you can add your printer
+  Now refresh the page in chrome with the url http://localhost:631, and the CUPS interface should show up and you can add your printer.
+
+### Add the printer
+
+Power the receipt printer (button on the left), and connect the USB cable to your laptop.
   
-  Under _CUPS for Administrators_ click _Adding printers and Classes_
+  Under _Administration_ you will see the button _Add Printer_
   
-  If all went well it should say _Star TSP143 (SRT_T_001)(Star TSP143 (STR_T_001))_ at the top under "local printers"
+  You will be asked to sign in to verify you are an administrator of the computer you are working on. So you fill in the username of your laptop and corresponding password. 
+  
+  Don't worry you are running CUPS locally on your machine. You are only viewing this software via a browser window, you are not sending your details over the internet. You can also do this with wifi turned off if you don't believe me :)  
+  
+  You will now see a list of printers. If all went well it should say _Star TSP143 (SRT_T_001)(Star TSP143 (STR_T_001))_ at the top under "local printers"
   
   <img width="1680" alt="Screenshot 2022-03-24 at 13 45 48" src="https://user-images.githubusercontent.com/7869045/159970816-bc18b088-24a7-412c-b928-8a6c77785537.png">
   
-  Select that one and press continue. Then select the STAR TSP100 CUTTER and continue to select the right driver for the printers we have.
+  Select that one and press continue. Then select *STAR TSP100 CUTTER* and continue to select the right driver for the printers we have.
     
+### Configure the printer
+
   If it is installed, go to _Printers_  
   
   In the dropdown that says _Administration_, choose _Set default options_
@@ -73,11 +82,18 @@ Thermo print has the characteristic of vanishing after a while. With an easy hac
   * Go to _Cut Options_ and set both to **Partial cut**
   * Go o _Output Options_ and select page type: **Fixed length**
 
- If it asks for an admin password you have to input the username of your computer and the corresponding pass (again: the CUPS program is running locally not on the web, you're just viewing the tool in a browser window)
 
+### Set printer as default on your system 
+  
   Go to the printer settings on your computer and make sure STAR TSP100 (or whatever name you gave it) is set as default printer. 
 
-  See STAR software manual for full explanation of options (file comes with driver).
+Now you can use the receipt printer the same way you would use any other printer. In the print dialog box you can explore the dropdowns for different options like you are used to. Just make sure the paper size is set to 72x200mm. 
+
+### Reprint jobs
+
+CUPS will keep track of all your print jobs, this makes it easy to reprint a job without sending it again. To do so: go to localhost:631 again in Chrome. And find the button *Jobs* in the top menu. 
+
+You will see a list of all your recent print jobs and what printer it was sent to. By clicking reprint you can reprint previous jobs. In most cases, reprinting via CUPS is faster and easier than going through the print dialog again. 
 
 ### Browse to (Only works in Chrome):
 
