@@ -31,7 +31,7 @@ Thermo print has the characteristic of vanishing after a while. With an easy hac
 
   If you have a printer, particularly, a receipt printer or something with non-standard format, configure it with CUPS in the browser. CUPS is a standards-based, open source printing system developed by for Apple products. CUPS uses IPP Everywhere™ to support printing to local and network printers.
   
-  Download and install the latest version for Mac: [https://www.cups.org/](https://www.cups.org/)
+  Download and install the latest version for Mac: [via STAR Micronics manufacturer website](https://starmicronics.com/support/download/cups-driver-for-macos/)
   
   The receipt printer described here is a Star TSP100 FuturePRNT with cutting feature. 
     
