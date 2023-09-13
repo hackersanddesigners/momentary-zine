@@ -123,6 +123,15 @@ You will see a list of all your recent print jobs and what printer it was sent t
   
   If nothing works, terminate the server process in terminal by hitting CTRL + C. Then restart the server. 
 
+## Changing the PRINT command to something else
+
+The word print triggers the content to be printed, but is often misheard. You can pick another command to print the content by changing the word 'PRINT' to something else in line 38 of "server.sh"
+
+```
+if char_count > 150 or 'PRINT' in print_content:
+```
+
+
 ## Changing font size and image size of print
 
 In line 17 of server.h you can edit these parameters. Typically this is set to 280 px image width and font size 24 pt.
@@ -130,6 +139,35 @@ In line 17 of server.h you can edit these parameters. Typically this is set to 2
 ```
 template = "<div><center><img src='THE_IMAGE' style='max-width: 280px;'></center><p style='font-size: 24pt; font-family: helvetica'>THE_TEXT</p></div>"
 ```
+
+## Change language of speech-to-text
+
+You can change the language of the speech-to-tech module in file "index.html", line 82. Change it to en_US for english, or fr for French etc.
+
+```
+recognition.lang = 'en_US';
+
+```
+
+## Removing images
+
+This is a hacky way to make images not show up. They still get searched and urls get stored but not loaded in the browser, or loaded really small (1px width) in the printed content. There's a more thorough way, but for another day
+
+To remove images from the browser interface: comment out line 27 in file "index.html" that say 
+
+```
+background =  'url(' + http.responseText + ')';
+
+```
+To remove images from the html and pdf files that will be printed. In the file "server.h" change the style for max width of images to 1 px
+
+```
+style='max-width: 1 px;
+```
+
+## Exclude GIFs
+
+Gifs dont get printed. If you want to search for still images only, remove the arguments 'gifs' and 'anigifs' from line 53 in the file "server.sh"
 
 
 ## Python3 Support - Update
