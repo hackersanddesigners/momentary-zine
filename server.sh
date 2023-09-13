@@ -19,6 +19,13 @@ print_content = ''
 char_count = 0
 
 def print_page(content):
+
+    #append new content to separate html file
+    html_file = open('zine_all.html', 'a')
+    html_file.write(content)
+    html_file.close()
+
+    #write new content to zine.html (overwrites it)
     html_file = open('zine.html', 'w')
     html_file.write(content)
     html_file.close()

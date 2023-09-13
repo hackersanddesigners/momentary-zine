@@ -123,6 +123,12 @@ You will see a list of all your recent print jobs and what printer it was sent t
   
   If nothing works, terminate the server process in terminal by hitting CTRL + C. Then restart the server. 
 
+## Appending all content
+
+Each time a print is generated the zine.html file and the zine.pdf file are overwritten. We've added a file that appends all the content to one html file. It's the file called "zine_all.html" in the folder. 
+
+It saves everything so if you want to only save content from a session, be sure to clear the contents of this file (open it, delete everything inside, save it, close it), to start fresh.
+
 ## Changing the PRINT command to something else
 
 The word print triggers the content to be printed, but is often misheard. You can pick another command to print the content by changing the word 'PRINT' to something else in line 38 of "server.sh"
