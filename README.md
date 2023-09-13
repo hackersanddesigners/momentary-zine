@@ -176,6 +176,15 @@ style='max-width: 1 px;
 Gifs dont get printed. If you want to search for still images only, remove the arguments 'gifs' and 'anigifs' from line 53 in the file "server.sh"
 
 
+## Other images 
+
+Instead of searching for an image, you can also give a static image url in double quotation marks in line 38 of "server.sh"
+
+```
+    content = template.replace('THE_IMAGE', "alternative url here")
+
+```
+
 ## Python3 Support - Update
 
 There is a new branch in github, in case you have python3
